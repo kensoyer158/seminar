@@ -1,12 +1,15 @@
 <?php
-$host = 'localhost';
-$username = 'root';
-$password = ''; 
-$dbname = 'seminar_db';
+$host = 'db.bbsszkzjduycohpskein.supabase.co';
+$port = '5432';
+$username = 'postgres';
+$password = '0954465727zsa'; 
+$dbname = 'seminar_001';
 
 try {
-    $pdo = new PDO("mysql:host=$host;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
+        $pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     
     $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
     $pdo->exec("USE `$dbname`");
