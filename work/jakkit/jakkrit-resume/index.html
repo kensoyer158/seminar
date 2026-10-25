@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>พอร์ตโฟลิโอ | จักรกฤษณ์ นาคสุก (Jakkrit Naksuk) - Web Developer Portfolio</title>
+  
+  <!-- Google Fonts: Prompt & Kanit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN with configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Prompt', 'Kanit', 'sans-serif'],
+            heading: ['Kanit', 'Prompt', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              200: '#b9dffe',
+              300: '#7cc4fd',
+              400: '#36a4fa',
+              500: '#0c87eb',
+              600: '#006ac9',
+              700: '#0154a3',
+              800: '#064786',
+              900: '#0a3c6f',
+              950: '#07264a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Kanit', sans-serif;
+    }
+    
+    /* Background subtle mesh glow */
+    .glow-bg {
+      background: radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 45%),
+                  radial-gradient(circle at 85% 70%, rgba(14, 165, 233, 0.1) 0%, transparent 40%);
+    }
+
+    .dark .glow-bg {
+      background: radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.18) 0%, transparent 45%),
+                  radial-gradient(circle at 85% 70%, rgba(14, 165, 233, 0.12) 0%, transparent 40%);
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background-color: white !important;
+        color: #1e293b !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-shadow-none {
+        box-shadow: none !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+      .print-break-inside-avoid {
+        break-inside: avoid;
+      }
+    }
+
+    /* Avatar Glow pulse */
+    .avatar-glow {
+      box-shadow: 0 0 35px -5px rgba(14, 135, 235, 0.45);
+    }
+
+    /* Project card image hover */
+    .project-img-container:hover img {
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300 antialiased glow-bg selection:bg-brand-500 selection:text-white">
+
+  <!-- Floating Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-medium pointer-events-none">
+    <i class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600 text-lg"></i>
+    <span id="toast-message">คัดลอกเรียบร้อยแล้ว</span>
+  </div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/80 dark:border-slate-800/80 no-print">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full overflow-hidden ring-2 ring-brand-500/50 shadow">
+          <img src="avatar.jpg" alt="รูปโปรไฟล์ จักรกฤษณ์ นาคสุก" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <span class="font-heading font-bold text-lg text-slate-900 dark:text-white block leading-tight">จักรกฤษณ์ นาคสุก</span>
+          <span class="text-xs text-brand-600 dark:text-brand-400 font-medium">Web Developer Portfolio</span>
+        </div>
+      </div>
+
+      <!-- Quick Nav Links & Actions -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Anchor links -->
+        <nav class="hidden md:flex items-center gap-4 text-xs font-medium text-slate-600 dark:text-slate-300 mr-2">
+          <a href="#projects" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">ผลงานโปรเจกต์</a>
+          <a href="#education" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">การศึกษา</a>
+          <a href="#skills" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">ทักษะ</a>
+        </nav>
+
+        <!-- Dark/Light Mode Toggle -->
+        <button id="theme-toggle" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all" title="สลับโหมดมืด/สว่าง">
+          <i id="theme-icon" class="fa-solid fa-moon text-base"></i>
+        </button>
+
+        <!-- Print/Save PDF Button -->
+        <button onclick="window.print()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium text-sm transition-all shadow-sm">
+          <i class="fa-solid fa-print text-brand-600 dark:text-brand-400"></i>
+          <span class="hidden sm:inline">พิมพ์ / บันทึก PDF</span>
+        </button>
+
+        <!-- Contact CTA -->
+        <a href="mailto:jakkrid130847@gmail.com" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-sky-600 hover:from-brand-500 hover:to-sky-500 text-white font-medium text-sm shadow-md shadow-brand-500/25 transition-all">
+          <i class="fa-regular fa-paper-plane"></i>
+          <span>ติดต่อฉัน</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    
+    <!-- Top Hero Banner Card -->
+    <div class="relative bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-10 shadow-xl shadow-slate-200/50 dark:shadow-none mb-10 overflow-hidden">
+      <!-- Background decoration gradients -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-brand-400/20 to-sky-300/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-gradient-to-tr from-brand-600/15 to-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8 lg:gap-12">
+        <!-- Avatar Photo -->
+        <div class="flex-shrink-0 flex flex-col items-center">
+          <div class="relative group">
+            <div class="w-44 h-44 sm:w-52 sm:h-52 rounded-full overflow-hidden p-1.5 bg-gradient-to-tr from-brand-600 via-sky-400 to-indigo-500 shadow-2xl avatar-glow">
+              <img src="avatar.jpg" alt="รูปโปรไฟล์อวตาร จักรกฤษณ์ นาคสุก" class="w-full h-full object-cover rounded-full bg-slate-100 dark:bg-slate-800 transition duration-300 group-hover:scale-105">
+            </div>
+            <!-- Online / Open to Work Badge -->
+            <div class="absolute bottom-2 right-4 bg-emerald-500 border-4 border-white dark:border-slate-900 text-white text-[11px] font-semibold px-2.5 py-0.5 rounded-full shadow-lg flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+              พร้อมเริ่มงานทันที
+            </div>
+          </div>
+          <div class="mt-3 text-center">
+            <span class="inline-block px-3 py-1 bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-800/60 rounded-full text-xs font-semibold">
+              อายุ 22 ปี • เกิด 13 ส.ค. 2547
+            </span>
+          </div>
+        </div>
+
+        <!-- Name, Bio & Quick Actions -->
+        <div class="flex-grow text-center md:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800 text-xs font-medium mb-3">
+            <i class="fa-solid fa-code"></i> พอร์ตโฟลิโอผู้พัฒนาเว็บไซต์ (Web Developer Portfolio) • บัณฑิตปี 2568
+          </div>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-2">
+            จักรกฤษณ์ นาคสุก
+          </h1>
+          <p class="text-lg sm:text-xl font-medium text-brand-600 dark:text-brand-400 mb-4">
+            Jakkrit Naksuk <span class="text-slate-400 dark:text-slate-500 font-normal">| Web Developer & Programmer</span>
+          </p>
+
+          <!-- About Me / Objective Highlight -->
+          <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 sm:p-5 border border-slate-200/70 dark:border-slate-700/60 mb-6">
+            <h3 class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold mb-2 flex items-center gap-2 justify-center md:justify-start">
+              <i class="fa-solid fa-user-astronaut text-brand-500"></i> เกี่ยวกับฉันและเป้าหมาย (About Me & Objective)
+            </h3>
+            <p class="text-sm sm:text-base text-slate-700 dark:text-slate-200 leading-relaxed">
+              "ยินดีต้อนรับสู่พอร์ตโฟลิโอของผมครับ ผมมุ่งมั่นพัฒนาสายอาชีพด้านการพัฒนาเว็บไซต์ (<span class="text-brand-600 dark:text-brand-400 font-semibold">Web Development</span>) ด้วยความกระตือรือร้นและพร้อมเรียนรู้สิ่งใหม่ ๆ ตลอดเวลา มุ่งเน้นการสร้างสรรค์และพัฒนาระบบที่มีประสิทธิภาพ เสถียร ตอบโจทย์การใช้งานจริง และนำทักษะด้านการพัฒนาระบบทั้งส่วนหน้าและส่วนหลัง (Frontend & Backend) มาต่อยอดสร้างผลงานคุณภาพให้กับองค์กร"
+            </p>
+          </div>
+
+          <!-- Contact Channels Bar -->
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
+            <!-- Phone -->
+            <a href="tel:0826415265" class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-medium transition-all group">
+              <i class="fa-solid fa-phone text-emerald-500 group-hover:scale-110 transition-transform"></i>
+              <span>082-641-5265</span>
+            </a>
+
+            <!-- Email with Copy Button -->
+            <div class="inline-flex items-center rounded-xl bg-slate-100 dark:bg-slate-800 p-0.5">
+              <a href="mailto:jakkrid130847@gmail.com" class="inline-flex items-center gap-2.5 px-3.5 py-2 text-slate-800 dark:text-slate-200 text-sm font-medium hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                <i class="fa-solid fa-envelope text-red-500"></i>
+                <span>jakkrid130847@gmail.com</span>
+              </a>
+              <button onclick="copyToClipboard('jakkrid130847@gmail.com', 'คัดลอกอีเมลเรียบร้อยแล้ว!')" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 transition-colors" title="คัดลอกอีเมล">
+                <i class="fa-regular fa-copy text-sm"></i>
+              </button>
+            </div>
+
+            <!-- University -->
+            <span class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 text-sm">
+              <i class="fa-solid fa-graduation-cap text-sky-500"></i>
+              <span>ม.ราชภัฏเพชรบุรี (จบปี 2568)</span>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid Layout: Left Column (Projects & Education) + Right Column (Skills & Details) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Left Column (8 cols): Projects & Education -->
+      <div class="lg:col-span-8 space-y-8">
+        
+        <!-- Featured Projects Section -->
+        <section id="projects" class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 shadow-sm">
+          <div class="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800 mb-8">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-laptop-code"></i>
+              </div>
+              <div>
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">ผลงานและโครงงานพัฒนาเว็บไซต์</h2>
+                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Featured Projects & Portfolio</p>
+              </div>
+            </div>
+            <span class="text-xs px-2.5 py-1 bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 font-semibold rounded-lg border border-brand-200 dark:border-brand-800/60 hidden sm:inline-block">
+              2 ผลงานเด่น
+            </span>
+          </div>
+
+          <!-- Project Cards List -->
+          <div class="space-y-10">
+
+            <!-- Project 1: DriveEasy Car Rental -->
+            <div class="group bg-slate-50/80 dark:bg-slate-800/40 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden hover:border-brand-300 dark:hover:border-brand-700 transition-all duration-300 shadow-sm hover:shadow-md print-break-inside-avoid">
+              
+              <!-- Project Preview Image with Browser Mockup Header -->
+              <div class="border-b border-slate-200/80 dark:border-slate-700/80 bg-slate-200/50 dark:bg-slate-800/80">
+                <div class="flex items-center justify-between px-4 py-2 text-xs text-slate-500 dark:text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-400 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span>
+                    <span class="ml-2 font-mono text-[11px] text-slate-600 dark:text-slate-300">demoport.freedev.app/all_cars.php</span>
+                  </div>
+                  <span class="text-[11px] bg-brand-100 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 px-2 py-0.5 rounded font-medium">Car Rental Web App</span>
+                </div>
+                <a href="https://demoport.freedev.app/all_cars.php" target="_blank" rel="noopener noreferrer" class="block project-img-container overflow-hidden max-h-72 bg-slate-900">
+                  <img src="project-driveeasy.png" alt="DriveEasy ภาพตัวอย่างผลงานระบบเช่ารถออนไลน์" class="w-full h-auto object-cover object-top transition duration-500">
+                </a>
+              </div>
+
+              <!-- Project Details -->
+              <div class="p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                  <div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                      <i class="fa-solid fa-car text-brand-500"></i>
+                      <span>DriveEasy – ระบบค้นหาและจองเช่ารถยนต์ออนไลน์</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Online Car Rental & Booking Platform</p>
+                  </div>
+                  
+                  <!-- Live Demo Button -->
+                  <a href="https://demoport.freedev.app/all_cars.php" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-medium text-xs shadow-md shadow-brand-500/20 transition-all flex-shrink-0 w-fit">
+                    <span>เปิดชมเว็บไซต์จริง</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                  </a>
+                </div>
+
+                <p class="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                  เว็บแอปพลิเคชันให้บริการจองและเช่ารถยนต์ออนไลน์ ออกแบบระบบให้ใช้งานง่าย ตอบโจทย์ทั้งการเลือกรถสปอร์ต ซูเปอร์คาร์ และรถสำหรับครอบครัว มีระบบคำนวณและกรองข้อมูลอย่างครบครัน
+                </p>
+
+                <!-- Key Features Bullet Points -->
+                <div class="space-y-2 mb-5 text-sm text-slate-600 dark:text-slate-300">
+                  <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-brand-500 text-sm mt-0.5 flex-shrink-0"></i>
+                    <span><strong>ระบบสืบค้นและคัดกรองรถยนต์ (Advanced Filter & Search):</strong> กรองรถตามวัน-เวลารับรถ/คืนรถ, ยี่ห้อ, ระบบเกียร์, จำนวนที่นั่ง และช่วงราคาต่อวัน</span>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-brand-500 text-sm mt-0.5 flex-shrink-0"></i>
+                    <span><strong>ระบบตรวจสอบคิวรถก่อนจอง (Availability Check):</strong> แสดงสถานะความพร้อมของรถ (เช่น ป้าย "พร้อมเช่า") และแจ้งเตือนให้ระบุวันรับ-คืนก่อนทำการจอง</span>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-brand-500 text-sm mt-0.5 flex-shrink-0"></i>
+                    <span><strong>หน้าแสดงรายละเอียดและสมรรถนะรถ (Vehicle Detail & Specs):</strong> แสดงข้อมูลขนาดเครื่องยนต์ กำลังขับเคลื่อน แรงม้า และทะเบียนรถอย่างเป็นระเบียบ</span>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-brand-500 text-sm mt-0.5 flex-shrink-0"></i>
+                    <span><strong>ระบบสมาชิกและระบบนำทาง:</strong> มีเมนูวิธีเช่า ข้อมูลติดต่อเรา และระบบเข้าสู่ระบบ/สมัครสมาชิกสำหรับผู้ใช้งาน</span>
+                  </div>
+                </div>
+
+                <!-- Tech Stack Badges -->
+                <div class="pt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex flex-wrap items-center gap-1.5">
+                  <span class="text-xs font-semibold text-slate-400 mr-1">เทคโนโลยี:</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">PHP</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">MySQL / Database</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">JavaScript</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">HTML5 & CSS3</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">Responsive Layout</span>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Project 2: GYMAURA E-Commerce -->
+            <div class="group bg-slate-50/80 dark:bg-slate-800/40 rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden hover:border-brand-300 dark:hover:border-brand-700 transition-all duration-300 shadow-sm hover:shadow-md print-break-inside-avoid">
+              
+              <!-- Project Preview Image with Browser Mockup Header -->
+              <div class="border-b border-slate-200/80 dark:border-slate-700/80 bg-slate-200/50 dark:bg-slate-800/80">
+                <div class="flex items-center justify-between px-4 py-2 text-xs text-slate-500 dark:text-slate-400">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-400 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span>
+                    <span class="ml-2 font-mono text-[11px] text-slate-600 dark:text-slate-300">664244112.makeallcode.com/e-commerce</span>
+                  </div>
+                  <span class="text-[11px] bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded font-medium">E-Commerce Web App</span>
+                </div>
+                <a href="https://664244112.makeallcode.com/e-commerce/index.php" target="_blank" rel="noopener noreferrer" class="block project-img-container overflow-hidden max-h-72 bg-slate-900">
+                  <img src="project-gymaura.png" alt="GYMAURA ภาพตัวอย่างผลงานเว็บไซต์อีคอมเมิร์ซฟิตเนส" class="w-full h-auto object-cover object-top transition duration-500">
+                </a>
+              </div>
+
+              <!-- Project Details -->
+              <div class="p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                  <div>
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                      <i class="fa-solid fa-dumbbell text-emerald-500"></i>
+                      <span>GYMAURA – เว็บไซต์อีคอมเมิร์ซจำหน่ายเสื้อผ้าและอุปกรณ์ฟิตเนส</span>
+                    </h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Fitness & Sportswear E-Commerce Platform</p>
+                  </div>
+                  
+                  <!-- Live Demo Button -->
+                  <a href="https://664244112.makeallcode.com/e-commerce/index.php" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs shadow-md shadow-emerald-500/20 transition-all flex-shrink-0 w-fit">
+                    <span>เปิดชมเว็บไซต์จริง</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                  </a>
+                </div>
+
+                <p class="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                  เว็บไซต์ระบบร้านค้าออนไลน์ (E-Commerce) สำหรับธุรกิจสินค้าออกกำลังกาย เสื้อผ้ากีฬา และอุปกรณ์ฟิตเนส พร้อมสโลแกน "ปลดล็อกขีดจำกัดในตัวคุณ" ออกแบบประสบการณ์ช้อปปิ้งออนไลน์ที่คล่องตัวและทันสมัย
+                </p>
+
+                <!-- Key Features Bullet Points -->
+                <div class="space-y-2 mb-5 text-sm text-slate-600 dark:text-slate-300">
+                  <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm mt-0.5 flex-shrink-0"></i>
+                    <span><strong>ระบบจัดหมวดหมู่สินค้าครบวงจร (Product Categorization):</strong> แยกหมวดสินค้าสำหรับผู้ชาย, ผู้หญิง, อุปกรณ์เสริม และอุปกรณ์ฟิตเนส</span>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm mt-0.5 flex-shrink-0"></i>
+                    <span><strong>ระบบตะกร้าสินค้า (Shopping Cart):</strong> เลือกซื้อสินค้า เพิ่ม/ลดจำนวน และแสดงยอดรวมของสินค้าแบบเรียลไทม์</span>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm mt-0.5 flex-shrink-0"></i>
+                    <span><strong>ระบบผู้ใช้งานและทีมงาน (User Account & Team Profile):</strong> รองรับระบบบัญชีผู้ใช้สำหรับสั่งซื้อสินค้า พร้อมหน้ารายละเอียดทีมผู้จัดทำ</span>
+                  </div>
+                  <div class="flex items-start gap-2.5">
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm mt-0.5 flex-shrink-0"></i>
+                    <span><strong>หน้าต้อนรับสไตล์โมเดิร์น (Hero Banner & Call-To-Action):</strong> ดีไซน์เน้นภาพลักษณ์แบรนด์สายสปอร์ต พร้อมปุ่มช้อปสินค้าคอลเลกชันใหม่</span>
+                  </div>
+                </div>
+
+                <!-- Tech Stack Badges -->
+                <div class="pt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex flex-wrap items-center gap-1.5">
+                  <span class="text-xs font-semibold text-slate-400 mr-1">เทคโนโลยี:</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">PHP</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">MySQL / Database</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">E-Commerce Architecture</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">HTML5 & CSS3</span>
+                  <span class="px-2.5 py-1 text-xs rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 font-medium">User Interface (UI/UX)</span>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 shadow-sm">
+          <div class="flex items-center gap-3 pb-5 border-b border-slate-100 dark:border-slate-800 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">ประวัติการศึกษา</h2>
+              <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Education Background</p>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-slate-50 via-indigo-50/20 to-slate-50 dark:from-slate-800/40 dark:via-indigo-950/20 dark:to-slate-800/40 rounded-2xl p-5 sm:p-6 border border-slate-200/80 dark:border-slate-700/60">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+                  มหาวิทยาลัยราชภัฏเพชรบุรี
+                </h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Phetchaburi Rajabhat University</p>
+              </div>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300 w-fit">
+                <i class="fa-solid fa-certificate text-[10px]"></i> สำเร็จการศึกษาปี 2568 (Graduation: 2025)
+              </span>
+            </div>
+
+            <div class="space-y-1.5 text-sm text-slate-700 dark:text-slate-200">
+              <p class="font-medium text-brand-600 dark:text-brand-400 flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-xs"></i>
+                คณะเทคโนโลยีสารสนเทศ (Faculty of Information Technology)
+              </p>
+              <p class="text-slate-600 dark:text-slate-300 flex items-center gap-2">
+                <i class="fa-solid fa-laptop text-xs"></i>
+                สาขาวิชาวิทยาการคอมพิวเตอร์ (Computer Science)
+              </p>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Right Column (4 cols): Personal Info, Skills & Details -->
+      <div class="lg:col-span-4 space-y-8">
+        
+        <!-- Personal Information Card -->
+        <section class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-sm">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2.5">
+            <i class="fa-regular fa-id-card text-brand-500"></i>
+            ข้อมูลส่วนบุคคล
+          </h2>
+
+          <div class="space-y-3.5 text-sm">
+            <div class="flex items-start justify-between py-1.5 border-b border-slate-100 dark:border-slate-800/60">
+              <span class="text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                <i class="fa-regular fa-user text-xs w-4"></i> ชื่อ-สกุล
+              </span>
+              <span class="font-medium text-slate-900 dark:text-white text-right">จักรกฤษณ์ นาคสุก</span>
+            </div>
+
+            <div class="flex items-start justify-between py-1.5 border-b border-slate-100 dark:border-slate-800/60">
+              <span class="text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                <i class="fa-solid fa-signature text-xs w-4"></i> ชื่อภาษาอังกฤษ
+              </span>
+              <span class="font-medium text-slate-900 dark:text-white text-right">Jakkrit Naksuk</span>
+            </div>
+
+            <div class="flex items-start justify-between py-1.5 border-b border-slate-100 dark:border-slate-800/60">
+              <span class="text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                <i class="fa-solid fa-cake-candles text-xs w-4"></i> วันเกิด
+              </span>
+              <span class="font-medium text-slate-900 dark:text-white text-right">13 สิงหาคม 2547</span>
+            </div>
+
+            <div class="flex items-start justify-between py-1.5 border-b border-slate-100 dark:border-slate-800/60">
+              <span class="text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                <i class="fa-regular fa-clock text-xs w-4"></i> อายุ
+              </span>
+              <span class="font-medium text-slate-900 dark:text-white text-right">22 ปี</span>
+            </div>
+
+            <div class="flex items-start justify-between py-1.5 border-b border-slate-100 dark:border-slate-800/60">
+              <span class="text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                <i class="fa-solid fa-phone text-xs w-4"></i> เบอร์โทรศัพท์
+              </span>
+              <a href="tel:0826415265" class="font-medium text-brand-600 hover:underline text-right">082-641-5265</a>
+            </div>
+
+            <div class="flex flex-col py-1.5">
+              <span class="text-slate-500 dark:text-slate-400 flex items-center gap-2 mb-1">
+                <i class="fa-regular fa-envelope text-xs w-4"></i> อีเมล
+              </span>
+              <a href="mailto:jakkrid130847@gmail.com" class="font-medium text-brand-600 hover:underline break-all">jakkrid130847@gmail.com</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Hard Skills Card -->
+        <section id="skills" class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-sm">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2.5">
+            <i class="fa-solid fa-code text-brand-500"></i>
+            ทักษะด้านเทคนิค (Hard Skills)
+          </h2>
+
+          <div class="space-y-4">
+            <!-- PHP & Backend Development -->
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1.5">
+                <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-200">
+                  <i class="fa-brands fa-php text-indigo-500 text-sm"></i> PHP & Web Application
+                </span>
+                <span class="text-brand-600 dark:text-brand-400">พัฒนาโปรเจกต์จริง</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                <div class="bg-gradient-to-r from-indigo-500 to-brand-500 h-2 rounded-full" style="width: 88%"></div>
+              </div>
+            </div>
+
+            <!-- HTML5 / CSS3 / Frontend -->
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1.5">
+                <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-200">
+                  <i class="fa-brands fa-html5 text-orange-500 text-sm"></i> HTML5 & CSS3
+                </span>
+                <span class="text-brand-600 dark:text-brand-400">ชำนาญ</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                <div class="bg-gradient-to-r from-orange-500 to-amber-500 h-2 rounded-full" style="width: 90%"></div>
+              </div>
+            </div>
+
+            <!-- Database & MySQL -->
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1.5">
+                <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-200">
+                  <i class="fa-solid fa-database text-sky-500 text-sm"></i> MySQL & Database Design
+                </span>
+                <span class="text-brand-600 dark:text-brand-400">เข้าใจโครงสร้างฐานข้อมูล</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                <div class="bg-gradient-to-r from-sky-500 to-brand-500 h-2 rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+
+            <!-- E-Commerce Architecture -->
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1.5">
+                <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-200">
+                  <i class="fa-solid fa-cart-shopping text-emerald-500 text-sm"></i> E-Commerce & Booking Systems
+                </span>
+                <span class="text-brand-600 dark:text-brand-400">เชี่ยวชาญการต่อยอด</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full" style="width: 85%"></div>
+              </div>
+            </div>
+
+            <!-- Responsive Design & UI/UX -->
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1.5">
+                <span class="flex items-center gap-1.5 text-slate-700 dark:text-slate-200">
+                  <i class="fa-solid fa-mobile-screen-button text-purple-500 text-sm"></i> Responsive UI Design
+                </span>
+                <span class="text-brand-600 dark:text-brand-400">รองรับทุกหน้าจอ</span>
+              </div>
+              <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style="width: 82%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Badges -->
+          <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">#PHP</span>
+            <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">#MySQL</span>
+            <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">#HTML5</span>
+            <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">#CSS3</span>
+            <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">#E-Commerce</span>
+            <span class="px-2.5 py-1 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg">#BookingSystem</span>
+          </div>
+        </section>
+
+        <!-- Soft Skills Card -->
+        <section class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-sm">
+          <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4 pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2.5">
+            <i class="fa-solid fa-lightbulb text-amber-500"></i>
+            ทักษะทางอารมณ์และสังคม (Soft Skills)
+          </h2>
+
+          <div class="space-y-3">
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-people-group"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">การทำงานเป็นทีม (Teamwork)</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">ทำงานร่วมกับเพื่อนร่วมทีมและฝ่ายที่เกี่ยวข้องเพื่อส่งมอบผลงานคุณภาพ</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800">
+              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-comments"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">การสื่อสาร (Communication)</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">สื่อสารข้อมูลโจทย์ความต้องการและรายละเอียดทางเทคนิคได้อย่างชัดเจน</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800">
+              <div class="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center flex-shrink-0">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">การเรียนรู้สิ่งใหม่รวดเร็ว (Fast Learner)</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">พร้อมเปิดรับเทคโนโลยี เฟรมเวิร์ก และเครื่องมือใหม่ในวงการพัฒนาเว็บ</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-16 py-8 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400 no-print">
+    <div class="max-w-6xl mx-auto px-4">
+      <p>© 2026 จักรกฤษณ์ นาคสุก (Jakkrit Naksuk) • All Rights Reserved</p>
+      <p class="mt-1 text-slate-400 dark:text-slate-500">เว็บไซต์พอร์ตโฟลิโอ พัฒนาด้วย HTML5, Tailwind CSS & ฟอนต์ภาษาไทย Kanit / Prompt</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Dark Mode Toggle Logic
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+
+    // Check saved theme preference or system preference
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      themeIcon.className = 'fa-solid fa-sun text-amber-400 text-base';
+    } else {
+      document.documentElement.classList.remove('dark');
+      themeIcon.className = 'fa-solid fa-moon text-slate-600 text-base';
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        themeIcon.className = 'fa-solid fa-moon text-slate-600 text-base';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.className = 'fa-solid fa-sun text-amber-400 text-base';
+      }
+    });
+
+    // Copy to Clipboard with Toast Notification
+    function copyToClipboard(text, message) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(message || 'คัดลอกเรียบร้อยแล้ว');
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.textContent = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
